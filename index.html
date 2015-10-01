@@ -18,6 +18,19 @@
 		<li></li>
 	</ul>
 
+
+	 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		var socket = io();
+	
+		socket.on('connect', function() {
+			console.log('Connected!');
+		});
+	
+		socket.on('tweets', function(tweet) {
+			console.log(tweet);
+		});
+	</script>
 </body>
 
 </html>
