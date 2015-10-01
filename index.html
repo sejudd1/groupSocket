@@ -9,7 +9,7 @@
 
 <body>
 	<form action="">
-		<input id="m" autocomplete="on/">
+		<input id="t" autocomplete="on/">
 		<button>SUBMIT</buton>
 	</form>
 	
@@ -18,8 +18,8 @@
 		<li></li>
 	</ul>
 
-
-	 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 		var socket = io();
 	
@@ -30,6 +30,23 @@
 		socket.on('tweets', function(tweet) {
 			console.log(tweet);
 		});
+
+		$('form').submit(function(){
+			socket.emit('tweet message', $('#t').val());
+			$('#t').val('');
+			return false;
+			console.log('form')
+		});
+
+		socket.on('tweet message', function(msg){
+			$('#tweets').append($('<li>').text(msg));
+
+		});
+
+		 socket.on('tweets', function(tweet) {
+			$('#messages').append($('<li>').text(tweet.text));
+		});
+    
 	</script>
 </body>
 
