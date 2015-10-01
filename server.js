@@ -14,6 +14,8 @@ var twitter = new Twit({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
+console.log( "Twitter = " + twitter.consumer_key );
+
 //Home Route
 app.get( '/', function( req, res ) {
 	res.sendFile( __dirname + '/views/index.html' );
