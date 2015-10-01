@@ -6,6 +6,7 @@ var io      = require( 'socket.io' )( http );
 var Twit    = require( 'twit' );
 var port    = 3000;
 
+
 //Twitter object
 var twitter = new Twit({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -14,7 +15,9 @@ var twitter = new Twit({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-console.log( "Twitter = " + twitter.consumer_key );
+
+var stream = twitter.stream('statuses/filter', { track: 'wdi-la-18' });
+
 
 //Home Route
 app.get( '/', function( req, res ) {
@@ -22,8 +25,14 @@ app.get( '/', function( req, res ) {
 } );
 
 //Socket Connections
+//==================
 io.on('connection', function( socket ) {
 	console.log('a user connected');
+
+  stream.on('tweet', function(tweet) {
+    console.log( tweet );
+    socket.emit('tweets', tweet);
+  });
 
 
 	//Sends and logs messages
